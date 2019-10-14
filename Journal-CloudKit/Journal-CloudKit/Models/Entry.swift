@@ -49,3 +49,12 @@ extension CKRecord {
         self.setValue(entry.timestamp, forKey: EntryStrings.TimestampKey)
     }
 }
+
+extension Entry: Equatable {
+    static func == (lhs: Entry, rhs: Entry) -> Bool {
+        if lhs.ckRecordID == rhs.ckRecordID { return true }
+        
+        return false
+    }
+    
+}

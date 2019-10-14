@@ -13,6 +13,7 @@ class EntryController {
     
     // Shared Instance
     static let shared = EntryController()
+    let privateCloudDatabase = CKContainer.default().privateCloudDatabase
     
     // SOT
     var entries: [Entry] = []
@@ -21,7 +22,7 @@ class EntryController {
     func save(entry: Entry, completion: @escaping (_ success: Bool) -> Void) {
         let newEntry = Entry(title: entry.title, bodyText: entry.bodyText)
         let entryRecord = CKRecord(entry: newEntry)
-        CKContainer.default().privateCloudDatabase.save(entryRecord) { (record, error) in
+        privateCloudDatabase.save(entryRecord) { (record, error) in
             if let error = error {
                 print("Error in \(#function) : \(error.localizedDescription) \n---\n \(error)")
                 completion(false)
@@ -70,11 +71,20 @@ class EntryController {
     }
     
     // Update
-    func deleteEntry() {
-        
+    func updateEntry() {
     }
     
     // Delete
+    func deleteEntry(entry: Entry, completion: @escaping (_ success: Bool) -> Void) {
+        privateCloudDatabase.delete(withRecordID: entry.ckRecordID) { (_, error) in
+            if let error = error {
+                print("Error in \(#function) : \(error.localizedDescription) \n---\n \(error)")
+                completion(false)
+                return
+            }
+        }
+    }
 }
+
 
 
