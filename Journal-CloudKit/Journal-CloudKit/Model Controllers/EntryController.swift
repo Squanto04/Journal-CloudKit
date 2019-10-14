@@ -36,7 +36,7 @@ class EntryController {
             completion(true)
         }
     }
-    
+    // Create
     func addEntryWith(title: String, body: String, completion: @escaping (_ success: Bool) -> Void) {
         let newEntry = Entry(title: title, bodyText: body)
         save(entry: newEntry) { (success) in
@@ -48,6 +48,7 @@ class EntryController {
         }
     }
     
+    // Read
     func fetchEntries(completion: @escaping (_ success: Bool) -> Void) {
         let predicate = NSPredicate(value: true)
         let query = CKQuery(recordType: EntryStrings.RecordType, predicate: predicate)
@@ -67,6 +68,13 @@ class EntryController {
             completion(true)
         }
     }
+    
+    // Update
+    func deleteEntry() {
+        
+    }
+    
+    // Delete
 }
 
 
