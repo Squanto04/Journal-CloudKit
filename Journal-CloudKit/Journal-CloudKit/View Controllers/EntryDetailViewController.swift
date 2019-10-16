@@ -46,15 +46,15 @@ class EntryDetailViewController: UIViewController {
             !title.isEmpty,
             !bodyText.isEmpty
             else { return }
-
-            EntryController.shared.addEntryWith(title: title, body: bodyText) { (success) in
-                if success {
-                    print("Entry Added")
-                    self.navigationController?.popViewController(animated: true)
-                } else {
-                    print("Error Adding Entry")
-                }
-            }
+        
+        if let entry = entry {
+            entry.title = title
+            entry.bodyText = bodyText
+            entry.timestamp = Date()
+            self.updateEntry(entry: entry, title: title, body: bodyText)
+        } else {
+            self.addEntry(title: title, body: bodyText)
+        }
     }
     
     // MARK: - Helper Functions
@@ -62,6 +62,26 @@ class EntryDetailViewController: UIViewController {
         guard let entry = entry else { return }
         titleTextField.text = entry.title
         bodyTextView.text = entry.bodyText
+    }
+    
+    private func addEntry(title: String, body: String) {
+        EntryController.shared.addEntryWith(title: title, body: body) { (success) in
+            if success {
+                DispatchQueue.main.async {
+                    self.navigationController?.popViewController(animated: true)
+                }
+            }
+        }
+    }
+    
+    private func updateEntry(entry: Entry, title: String, body: String) {
+        EntryController.shared.updateEntry(entry: entry) { (success) in
+            if success {
+                DispatchQueue.main.async {
+                    self.navigationController?.popViewController(animated: true)
+                }
+            }
+        }
     }
     
     func updateDesign() {

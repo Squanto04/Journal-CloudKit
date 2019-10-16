@@ -17,9 +17,9 @@ struct EntryStrings{
 }
 
 class Entry {
-    let title: String
-    let bodyText: String
-    let timestamp: Date
+    var title: String
+    var bodyText: String
+    var timestamp: Date
     let ckRecordID: CKRecord.ID
     
     init (title: String, bodyText: String, timestamp: Date = Date(), ckRecordID: CKRecord.ID = CKRecord.ID(recordName: UUID().uuidString)) {

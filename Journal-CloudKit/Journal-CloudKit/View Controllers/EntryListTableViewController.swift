@@ -37,11 +37,14 @@ class EntryListTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let entry = EntryController.shared.entries[indexPath.row]
+            guard let index = EntryController.shared.entries.firstIndex(of: entry) else { return }
             EntryController.shared.deleteEntry(entry: entry) { (success) in
                 if success {
-                    tableView.deleteRows(at: [indexPath], with: .fade)
-                } else {
-                    print("Error Deleting Cell")
+                    EntryController.shared.entries.remove(at: index)
+                    
+                    DispatchQueue.main.async {
+                        tableView.deleteRows(at: [indexPath], with: .fade)
+                    }
                 }
             }
         }
